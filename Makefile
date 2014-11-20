@@ -45,9 +45,14 @@ help:
 	@echo "  pseudoxml  to make pseudoxml-XML files for display purposes"
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
+	@echo "  rsync_upload -- upload via rsync "
 
 clean:
 	rm -rf $(BUILDDIR)/*
+
+rsync_upload: html
+	  rsync -e "ssh -p 22" -P -rvz --delete build/html/ egaburov@shell.dds.nl:~/public_html/tailvega/hpc/ --cvs-exclude
+
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
