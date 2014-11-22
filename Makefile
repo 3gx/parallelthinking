@@ -51,7 +51,7 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 rsync_upload: html
-	  rsync -e "ssh -p 22" -P -rvz --delete build/html/ egaburov@shell.dds.nl:~/public_html/tailvega/hpc/ --cvs-exclude
+	  rsync -e "ssh -p 22" -P -rvz --delete build/html/ egaburov@shell.dds.nl:~/public_html/parallelthinking/ --cvs-exclude
 
 
 html:

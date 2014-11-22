@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Parallel thinking'
+project = u'ParallelThinking'
 copyright = u'2014, hpczone'
 
 # The version info for the project you're documenting, acts as replacement for
