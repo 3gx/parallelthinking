@@ -12,11 +12,23 @@ being blended into the final image. This is both compute and communication
 heavy rendering steps, which is absent when image is rendered on a single
 worker.
 
+* `Naive parallel composition`_
+* `Optimized parallel composition`_
+
+Naive parallel composition
+-------------------------------
+
+
+
 .. image:: ./_images/logo.png
     :width: 200px
     :align: center
     :height: 100px
     :alt: alternate text test
+
+Optimized parallel composition
+-------------------------------
+
 
 Test1
 
