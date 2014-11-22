@@ -1,0 +1,2 @@
+Massively parallel image composition
+======================================
