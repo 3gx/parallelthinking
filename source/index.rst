@@ -9,7 +9,7 @@ Welcome to ParallelThinking portal!
 Contents:
 
 .. toctree::
-   :maxdepth: 0
+   :maxdepth: 1
 
    parallelcompositor.rst
 
