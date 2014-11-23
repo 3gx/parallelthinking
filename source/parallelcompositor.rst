@@ -22,7 +22,6 @@ worker.
 Naive parallel composition
 -------------------------------
 
-
 The simplest way to think about the parallel image compositing is to realize
 that each parallel processor can compose a fixed set of pixels. With a given
 image resolution, the number of pixels decreases linearly with the processor
@@ -44,8 +43,8 @@ use the following interface
 .. code-block:: c++
 
    void parallelCompositingNaive(
-      float4* src,
-      float4* dst,
+      std::shared_ptr<float4> src,
+      std::shared_ptr<float4> dst,
       const int npixels,
       const MPI_Comm &comm,
       const std::vector<int> &order);
@@ -60,14 +59,50 @@ The compilable source of this function can be found `here
 <https://github.com/egaburov/parallelthinking/blob/master/source/_code/parallelCompositingNaive.cpp>`_,
 and below I will only focus explaining relevant code snippets.
 
+First a rank collects all pixels from remote ranks which it will blend together
+with a simple :code:`MPI_Alltoall` collective:
+
+.. code-block:: c++
+
+   MPI_Alltoall(src.get(), nsend*4, MPI_FLOAT, &colorArray[0], nsend*4, MPI_FLOAT, comm);
 
 
+Consider a full-image scanline that runs from left to right and top to bottom:
 
-.. image:: ./_images/logo.png
-    :width: 200px
+.. image:: ./_images/scanline_01.jpg
+    :width: 600px
     :align: center
-    :height: 100px
     :alt: alternate text test
+
+Let's assume we have eight rendering rank whose job now is to compose their
+partial images into a single one. We split the scan line into eight equal pieces:
+
+.. image:: ./_images/scanline_02.jpg
+    :width: 600px
+    :align: center
+
+Here, every rank will blend pixels for which it is responsible. For example,
+"rank 0", will be blending first 18 pixels, "rank 1" will blend the next set of
+18 pixels, and so forth. However, before blending can take place, each rank has
+to send its own pixel to appropriate remote blending rank. The following image
+shows a color map of which pixels to be sent to which rank:
+ 
+.. image:: ./_images/scanline_03.jpg
+    :width: 600px
+    :align: center
+
+Here, every rank will send first 18 pixel to "rank 0", the next set of 18
+pixels to "rank 1", and so forth.
+
+The beautify of this division, is that this communication can be accomplished
+in a single MPI collective call:
+
+.. code-block:: c++
+
+   MPI_Alltoall(src.get(), nsend*4, MPI_FLOAT, &colorArray[0], nsend*4, MPI_FLOAT, comm);
+
+
+
 
 Optimized parallel composition
 -------------------------------
