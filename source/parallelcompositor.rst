@@ -43,7 +43,7 @@ use the following interface
 
 .. code-block:: c++
 
-   void parallelCompositing(
+   void parallelCompositingNaive(
       float4* src,
       float4* dst,
       const int npixels,
@@ -55,6 +55,10 @@ destination images, and the third argument is the number of pixels to be
 composited by each rank. The forth argument is the MPI communicator, through
 which ranks will communicate, and the final argument describes the order in
 which the images from remote ranks are blended together.
+
+The compilable source of this function can be found `here
+<https://github.com/egaburov/parallelthinking/blob/master/source/_code/parallelCompositingNaive.cpp>`_,
+and below I will only focus explaining relevant code snippets.
 
 
 
