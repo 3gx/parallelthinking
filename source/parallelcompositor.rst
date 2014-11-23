@@ -13,10 +13,49 @@ heavy rendering steps, which is absent when image is rendered on a single
 worker.
 
 * `Naive parallel composition`_
+
+  + `Simple implementation`_
+
 * `Optimized parallel composition`_
+* `Pipelining`_
 
 Naive parallel composition
 -------------------------------
+
+
+The simplest way to think about the parallel image compositing is to realize
+that each parallel processor can compose a fixed set of pixels. With a given
+image resolution, the number of pixels decreases linearly with the processor
+count as :math:`N_{\rm pix} = \frac{W\times\,H}{N_{\rm comp}}`, where :math:`W`
+and :math:`H` are image width and height respectively, and :math:`N_{\rm comp}`
+is the number of compositing workers. The amount of data that each worker
+received from remote renderers scales inversely with the number of workers,
+thus this simple parallel algorithms has a natural strong scalability, at least
+in theory. In practice, we are likely to be limited by the interconnect
+latency, however.
+
+Simple implementation
+^^^^^^^^^^^^^^^^^^^^^^
+
+In this section I will show a simple naive implementation of the parallel
+compositing algorithm, that shows good strong scalability in practice. We will
+use the following interface
+
+.. code-block:: c++
+
+   void parallelCompositing(
+      float4* src,
+      float4* dst,
+      const int npixels,
+      const MPI_Comm &comm,
+      const std::vector<int> &order);
+
+The first two arguments to the functions are the pointers to a source and
+destination images, and the third argument is the number of pixels to be
+composited by each rank. The forth argument is the MPI communicator, through
+which ranks will communicate, and the final argument describes the order in
+which the images from remote ranks are blended together.
+
 
 
 
@@ -39,6 +78,9 @@ Test1
     :alt: alternate text test
 
     **Figure 1**: figure is like an images but with a capture.
+
+Pipelining
+------------
 
 
 Test2
