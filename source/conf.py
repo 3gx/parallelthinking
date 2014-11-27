@@ -29,7 +29,8 @@ import os
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.pngmath',
+#    'sphinx.ext.pngmath',
+    'sphinx.ext.mathjax',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -101,14 +102,26 @@ import sphinx_rtd_theme
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
+#import alabaster
+#html_theme_path = [alabaster.get_path()]
+#extensions = ['alabaster']
+#html_theme = 'alabaster'
+#html_sidebars = {
+#       '**': [
+#                'about.html', 'navigation.html', 'searchbox.html', 'donate.html',
+#                   ]
+#       }
+
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#html_theme = 'default'
+#html_theme = 'pyramid'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+#html_theme_options = {
+#    "stickysidebar" : "true"
+#}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
